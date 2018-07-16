@@ -1,0 +1,17 @@
+@charset "UTF-8";
+	body{
+		background:pink;
+		/* background:url(maven-springmvc/WEB-INF/images/han01.jpg) no-repeat; */
+	}
+	a{
+		text-decoration:none;
+	}
+	a:hover{
+		color:red;
+	}
+	.add-error{
+		color:red;
+	}
+	.menu {
+				display: inline-block;
+			}
