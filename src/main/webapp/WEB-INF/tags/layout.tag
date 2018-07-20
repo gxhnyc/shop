@@ -20,45 +20,12 @@
 	</head>
 	<body>
 	<div class="header">
-	
-		<sec:authorize access="hasAnyAuthority('Limi_BOOK_RW','Limi_BOOK_RO')">
-		<ul class="menu">
-			<li><a href="">-图书管理-</a></li>			
-			<li><a href="${contextPath }/books/">图书列表</a></li>			
-			<sec:authorize access="hasAuthority('Limi_BOOK_RW')">
-			<li><a href="${contextPath }/books/book-add">添加图书</a></li>
-			</sec:authorize>
-		</ul>
-		</sec:authorize>
-		
-		<sec:authorize access="hasAnyAuthority('Limi_AUTHOR_RW','Limi_AUTHOR_RO')">
-		<ul class="menu">
-			<li><a href="">-作者管理-</a></li>
-			<sec:authorize access="hasAnyAuthority('Limi_AUTHOR_RW','Limi_AUTHOR_RO')">
-			<li><a href="${contextPath }/authors/">作者列表</a></li>
-			</sec:authorize>
-			<sec:authorize access="hasAuthority('Limi_AUTHOR_RW')">
-			<li><a href="${contextPath }/authors/author-add">添加作者</a></li>
-			</sec:authorize>
-		</ul>
-		</sec:authorize>
-		
-		<sec:authorize access="hasAnyAuthority('Limi_PUBLISHER_RW','Limi_PUBLISHER_RO')">
-		<ul class="menu">
-			<li><a href="">-出版社管理-</a></li>
-			<li><a href="${contextPath }/publishers/">出版社列表</a></li>
-			<sec:authorize access="hasAuthority('Limi_PUBLISHER_RW')">
-			<li><a href="${contextPath }/publishers/publisher-add">添加出版社</a></li>
-			</sec:authorize>
-		</ul>
-		</sec:authorize>
 		
 		<ul class="menu">
-		<sec:authentication property="principal.username" var="o_username" scope="session"/>
-		<sec:authentication property="principal.operator.email" var="o_email"/>
+		<sec:authentication property="principal.username" var="c_username" scope="session"/>
 			<li><a href="">--当前用户--</a></li>
 			<!--  principal属性可以拿到当前登录的用户详情（UserDetailsImpl） -->
-			<li>用户名：<a href="">【${o_username }】</a></li>			
+			<li>用户名：<a href="">【${c_username }】</a></li>			
 			
 			<c:choose>	
 				<c:when test="${o_email!=null }">
@@ -69,11 +36,31 @@
 				</c:otherwise>
 			</c:choose>	
 			<li>
-			 <!-- springsecurity默认的退出路径是：POST /logout，注意：springsecurity自带处理 -->
-				<form action="${contextPath }/logout" method="post">
-					<sec:csrfInput/>
-					<button type="submit">退出</button>
-				</form>
+			<c:choose>	
+				<c:when test="${c_username!=null||!c_username.equals('')}">
+					<li><!-- springsecurity默认的退出路径是：POST /logout，注意：springsecurity自带处理 -->
+						<form action="${contextPath }/logout" method="post">
+							<sec:csrfInput/>
+							<button type="submit">退出</button>
+						</form>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li><!-- springsecurity默认的退出路径是：POST /logout，注意：springsecurity自带处理 -->
+						<form action="${contextPath }/login" method="post">
+							<sec:csrfInput/>
+							<button type="submit">登录</button>
+						</form>
+					</li>
+					<li>
+						<form action="${contextPath }/register" method="post">
+							<sec:csrfInput/>
+							<button type="submit">注册</button>
+						</form>
+					</li>
+				</c:otherwise>
+			</c:choose>	
+			 
 			</li>
 		</ul>
 	</div>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace对应Mapper接口名                -->
+  <mapper namespace="shop.mapper.CustomerMapper">
+  		<!-- 	    id对应Mapper方法名 -->
+  		<select id="userNameExist" resultType="Integer">
+  			select count(*) from customers where username=#{username}
+  		</select>
+  		
+  		<!-- 	useGeneratedKeys告诉Mybatis获取自动生成的主键set到pojo上 -->
+		<!-- 	keyColumn指定主键列名，keyProperty指定主键对应的pojo属性名  -->
+  		<insert id="register" useGeneratedKeys="true" keyColumn="c_id" keyProperty="c_id">
+  			insert into customers values(
+       			custormers_seq.nextval,
+       			#{username},
+       			#{password},
+       			sysdate )			
+  		</insert>
+  		<select id="findOneByUsername" resultType="Customer">
+  			select * from customers where username=#{username}
+  		</select>  
+  		
+  		<update id="updateLoginTime">
+  			update customers set lastdate=sysdate where c_id=#{c_id}
+  		</update>
+  		<update id="updateLastLoginTime">
+  			update customers set lastdate=#{date} where c_id=#{c_id}
+  		</update>		
+  </mapper>

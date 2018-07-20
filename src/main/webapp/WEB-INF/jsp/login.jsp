@@ -3,10 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
-<title>管理员登录</title>
+<title>VIP会员登录</title>
 <style type="text/css">
 	body{
 		margin:0px 500px;
@@ -51,7 +51,7 @@
 
 	
 	<fieldset>
-		<legend>管理员登录</legend>
+		<legend>VIP会员登录</legend>
 		<br><br><br>
 		<!--action为空意味着会提交到当前表单页面的路径-->
 		<form action="" method="post" >

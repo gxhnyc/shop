@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <!-- 配置信息 -->
+  <configuration>
+  	<typeAliases >
+  		<!-- 在此配置之后，可在mapper.xml中只写上简单类名即可，mybatis会自动去指定包寻找相应类 -->
+  		<package name="shop.entity"/>
+  	</typeAliases>
+  	
+  
+  
+  
+  </configuration>

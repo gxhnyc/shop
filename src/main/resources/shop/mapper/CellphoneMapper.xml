@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace对应Mapper接口名  -->
+  <mapper namespace="shop.mapper.CellphoneMapper">
+  		
+  		<select id="findAll" resultType="Cellphone">
+  			select  cp_id,cp_brand,cp_model,cp_os,cp_cpu,cp_cpu_cores,cp_ram,cp_storage,cp_color,
+  					cp_description,cp_price from cellphone
+  		</select>
+  		<select id="findByID" resultType="Cellphone">
+  			select  cp_id,cp_brand,cp_model,cp_os,cp_cpu,cp_cpu_cores,cp_ram,cp_storage,cp_color,
+  					cp_description,cp_price from cellphone
+  			where cp_id=#{cp_id}
+  		</select>
+  		<insert id="createOne">
+  			insert into cellphone values(
+  				   'VPN'||cellphone_id_seq.nextval||'CN',
+			       #{cp_brand},
+			       #{cp_model},
+			       #{cp_os},
+			       #{cp_cpu},
+			       #{cp_cpu_cores},
+			       #{cp_ram},
+			       #{cp_storage},
+			       #{cp_color},
+			       #{cp_description},
+			       #{cp_price}
+  			)
+  		</insert>
+  		
+  		<select id="modelExist" resultType="Integer">
+  			select count(cp_model) from cellphone where cp_model=#{cp_model}
+  		</select>
+  		
+  		<update id="updateOne">
+  			update 	cellphone set cp_brand=#{cp_brand},cp_os=#{cp_os},cp_cpu=#{cp_cpu},cp_cpu=#{cp_cpu_cores},cp_ram=#{cp_ram} ,
+  					cp_storage=#{cp_storage} ,cp_color=#{cp_color} ,cp_description=#{cp_description},
+  					cp_price=#{cp_price}
+  			where cp_id=#{cp_id}
+  			
+  		</update>
+  		
+  		<delete id="deleteOne">
+  			delete from cellphone where cp_id=#{cp_id}
+  		</delete>
+  		
+  		<select id="fuzzyQuery" resultType="Cellphone">
+			
+			select * from cellphone
+				<where>
+							1=1
+					<!-- <if test="cp_id!=null||cp_id!=''">
+							and cp_id=#{cp_id}
+					</if>	 -->							
+					<if test="cp_brand!=null">
+						  	and cp_brand =#{cp_brand}
+					</if>					
+					<if test="cp_model!=null">
+							and cp_model = #{cp_model}
+					</if>					
+					<if test="cp_os!=null">
+							and cp_os = #{cp_os}
+					</if>					
+					<!-- <if test="cp_cpu!=null||cp_cpu!=''">
+							and cp_cpu = #{cp_cpu}
+					</if>			 -->
+				</where>
+	</select> 
+  		
+  		
+  </mapper>

@@ -23,11 +23,11 @@
 </head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <body>
-	<h2>operator-add</h2>
+	<h2>用户注册</h2>
 	<fieldset>
-		<legend>添加管理员</legend>
+		<legend>用户注册</legend>
 		<!--action为空意味着会提交到当前表单页面的路径-->
-		<form:form action="" method="post" commandName="operatorForm">
+		<form:form action="" method="post" commandName="customer">
 		<div>
 			<label for="username">用户名：</label>
 			<input type="text" name="username" id="username"/>
@@ -38,28 +38,7 @@
 			<input type="password" name="password" id="password"/>
 			<form:errors path="password" cssClass="add-error"></form:errors>
 		</div>
-		<div>
-			<label for="role_id" >角　　色：</label>
-			<form:select path="role_id"  
-						 id="role_id" 
-						 items="${roleOptions}" 
-						 itemLabel="role_name"
-						 itemValue="role_id"						 
-						 >			
-			</form:select>
-			<form:errors path="role_id" cssClass="add-error"></form:errors>
-		</div>
-		<%-- <div>
-			<label for="limitsIds" >角色权限：</label>
-			<form:select path="limitsIds"  
-						 id="limitsIds" 
-						 items="${limitsOptions}" 
-						 itemLabel="limits_name"
-						 itemValue="limits_id"						 
-						 >			
-			</form:select>
-			<form:errors path="limitsIds" cssClass="add-error"></form:errors>
-		</div> --%>
+		
 		<div>
 			<button type="submit">提交</button>
 		</div>
