@@ -13,7 +13,7 @@
   		</select>
   		<select id="findByID" resultType="Cellphone">
   			select  cp_id,cp_brand,cp_model,cp_os,cp_cpu,cp_cpu_cores,cp_ram,cp_storage,cp_color,
-  					cp_description,cp_price from cellphone
+  					cp_description,cp_price,image from cellphone
   			where cp_id=#{cp_id}
   		</select>
   		<insert id="createOne">
@@ -52,10 +52,7 @@
 			
 			select * from cellphone
 				<where>
-							1=1
-					<!-- <if test="cp_id!=null||cp_id!=''">
-							and cp_id=#{cp_id}
-					</if>	 -->							
+							1=1							
 					<if test="cp_brand!=null">
 						  	and cp_brand =#{cp_brand}
 					</if>					
@@ -63,11 +60,12 @@
 							and cp_model = #{cp_model}
 					</if>					
 					<if test="cp_os!=null">
-							and cp_os = #{cp_os}
+					<bind name="ospattern" value="'%'+cp_os+'%'"/>
+							and cp_os like #{ospattern}
 					</if>					
-					<!-- <if test="cp_cpu!=null||cp_cpu!=''">
+					<if test="cp_cpu!=null">
 							and cp_cpu = #{cp_cpu}
-					</if>			 -->
+					</if>
 				</where>
 	</select> 
   		

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace对应Mapper接口名  -->
+  <mapper namespace="shop.mapper.ShoppingCartMapper">
+  		<insert id="addCartItem">
+  			insert into cart_item values(
+  				#{userid},#{cp_id},#{amount}
+  			) 
+  				
+  		</insert>
+  		
+  </mapper>

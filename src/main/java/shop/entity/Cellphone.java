@@ -26,6 +26,10 @@ public class Cellphone {
 	private String cp_description;
 	@Min(100)
 	private Integer cp_price;//单位：元
+	
+	private String image;
+	
+	
 	public String getCp_id() {
 		return cp_id;
 	}
@@ -64,7 +68,10 @@ public class Cellphone {
 		return cp_cpu;
 	}
 	public void setCp_cpu(String cp_cpu) {
-		this.cp_cpu = cp_cpu;
+		if(cp_cpu!=null&&!cp_cpu.trim().isEmpty()) {
+			this.cp_cpu = cp_cpu;
+		}
+		
 	}
 	public Integer getCp_ram() {
 		return cp_ram;
@@ -102,12 +109,18 @@ public class Cellphone {
 	public void setCp_cpu_cores(Integer cp_cpu_cores) {
 		this.cp_cpu_cores = cp_cpu_cores;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	@Override
 	public String toString() {
 		return "Cellphone [cp_id=" + cp_id + ", cp_brand=" + cp_brand + ", cp_model=" + cp_model + ", cp_os=" + cp_os
 				+ ", cp_cpu=" + cp_cpu + ", cp_cpu_cores=" + cp_cpu_cores + ", cp_ram=" + cp_ram + ", cp_storage="
 				+ cp_storage + ", cp_color=" + cp_color + ", cp_description=" + cp_description + ", cp_price="
-				+ cp_price + "]";
+				+ cp_price + ", image=" + image + "]";
 	}
 	
 	

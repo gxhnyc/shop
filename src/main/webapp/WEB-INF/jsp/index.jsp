@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-    
+ <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>   
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <%-- 调用布局，内容将插入布局的content区域 --%>
@@ -24,7 +24,7 @@
 		      <label for="cp_brand">品牌</label>
 		      <select name="cp_brand">
 		        <option value="">--请选择品牌--</option>
-		        <option value="苹果">苹果</option>
+		        <option value="apple">apple</option>
 		        <option value="锤子">锤子</option>
 		        <option value="华为">华为</option>
 		      </select>
@@ -35,7 +35,7 @@
 		      <select name="cp_os">
 		        <option value="">--请选择操作系统--</option>
 		        <option value="Android">Android</option>
-		        <option value="IOS">IOS</option>
+		        <option value="ios">ios</option>
 		        <option value="Windows Phone">Windows Phone</option>
 		      </select>      
 		    </div>
@@ -44,7 +44,8 @@
 		      <label for="cp_cpu">CPU品牌</label>
 		      <select name="cp_cpu">
 		        <option value="">--请选择CPU品牌--</option>
-		        <option value="高通">高通</option>
+		        <option value="Qualcomm10">Qualcomm10</option>
+		        <option value="Qualcomm9">Qualcomm9</option>
 		        <option value="联发科">联发科</option>
 		      </select>
 		    </div>    
@@ -81,6 +82,7 @@
 	      <th>存　储　</th>
 	      <th>颜　色　</th>
 	      <th>价　格　</th>
+	      
 	    </tr>
 	    <c:forEach items="${cellphones}" var="cellphone">
 	      <tr>
@@ -88,10 +90,11 @@
 	        <td>${cellphone.cp_model}</td>
 	        <td>${cellphone.cp_os}</td>
 	        <td>${cellphone.cp_cpu} ${cellphone.cp_cpu_cores}</td>
-	        <td>${cellphone.cp_ram}</td>
-	        <td>${cellphone.cp_storage}</td>
+	        <td>${cellphone.cp_ram}GB</td>
+	        <td>${cellphone.cp_storage}GB</td>
 	        <td>${cellphone.cp_color}</td>
-	        <td>${cellphone.cp_price}</td>
+	        <td>￥：${cellphone.cp_price/100}</td>
+	        <td><a href="${contextPath }/details/${ cellphone.cp_id}">详情</a></td>
 	      </tr>
 	    </c:forEach>
 	  </table>
