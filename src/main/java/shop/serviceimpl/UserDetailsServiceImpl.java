@@ -25,13 +25,14 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 		 
 		 //更新登录时间
 		 customerMapper.updateLoginTime(customerMapper.findOneByUsername(username).getC_id());
-		 Customer customer = customerMapper.findOneByUsername(username);
-	        System.out.println("userDetailsServiceImpl.loadUserByUserName()："+customer.getUsername()+
+		 	
+		 	Customer customer = customerMapper.findOneByUsername(username);
+		 		System.out.println("userDetailsServiceImpl.loadUserByUserName()："+customer.getUsername()+
 	        		"最后一次登录时间："+customer.getLastdate());
 	        if (customer == null) { // 按照接口要求，用户名不存在时必须抛异常UsernameNotFoundException
 	            throw new UserNameNotFoundException("用户名不存在: " + username);
 	        } 
-	        
+	        System.out.println("UserDetailsServiceImpl:"+customer.getC_id()+"-----------");
 	        // 从mapper得到的是实体operator，需要转换成springsecurity所需的UserDetails对象
 	        return new UserDetailsImpl(customer);
 	}

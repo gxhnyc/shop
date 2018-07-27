@@ -13,7 +13,7 @@ import shop.entity.Cellphone;
 import shop.service.CellphoneService;
 
 /**
- * 购物车控制器
+ * 手机详情控制器
  * @author Administrator
  *
  */

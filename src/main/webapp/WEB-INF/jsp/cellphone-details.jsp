@@ -33,9 +33,10 @@
 	</div>
 	
 	<div>		
-		<h2>
-			<a href="${contextPath }/">返回首页</a>
-		</h2>
+		<h4>
+			<a href="${contextPath }/">【返回首页】</a>
+			<a href="${contextPath }/uc/showcart">【查看购物车】</a>
+		</h4>
 	</div>
 	<div>
 		<ul>

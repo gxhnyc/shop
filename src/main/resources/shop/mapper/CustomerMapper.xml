@@ -21,7 +21,7 @@
        			sysdate )			
   		</insert>
   		<select id="findOneByUsername" resultType="Customer">
-  			select * from customers where username=#{username}
+  			select c_id,username,password,lastdate from customers where username=#{username}
   		</select>  
   		
   		<update id="updateLoginTime">

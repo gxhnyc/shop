@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace对应Mapper接口名  -->
+  <mapper namespace="shop.mapper.AddressMapper">
+  		
+  		
+  		<insert id="addAddress">
+  			insert into shippingaddress values(ship_addr_seq.nextval,#{c_id},#{consignee},#{tel},#{address})
+  		</insert>
+  		
+  		<select id="findAllAddress" resultMap="AddressMap">
+  			 select ship_id,consignee,tel,address from shippingaddress
+         			where c_id=3
+  		</select>
+  		
+  		<update id="editAddress">
+  			update shippingaddress set consignee=#{consignee} , tel=#{tel}, address=#{address}
+  					where ship_id=#{ship_id} and c_id=#{customer.c_id}
+  		</update>
+  		<select id="findAddressByID" resultType="ShippingAddress">
+  			select * from shippingaddress where ship_id=#{ship_id} and c_id=#{c_id}
+  		</select>
+  		
+  		<delete id="delAddressByID">
+  			delete from shippingaddress where ship_id=#{ship_id} and c_id=#{c_id}
+  		</delete>
+  		
+  		
+  		<resultMap type="ShippingAddress" id="AddressMap">
+  			<id column="ship_id" property="ship_id"/>
+  			<result column="c_id" property="c_id"/>
+  			<result column="consignee" property="consignee"/>
+  			<result column="tel" property="tel"/>
+  			<result column="address" property="address"/>
+  			
+  		</resultMap>
+  		
+  </mapper>

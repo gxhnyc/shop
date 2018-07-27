@@ -11,7 +11,9 @@ import shop.mapper.CustomerMapper;
 import shop.serviceimpl.UserDetailsImpl;
 
 /**
- * 当有会员成功登录时，springSecurity会发布事件InteractiveAuthenticationSuccessEvent到Spring容器
+ * 用户成功登录监听器（在此更新登录时间）
+ * 
+ * 当有会员成功登录时，springSecurity会发布事件InteractiveAuthenticationSuccessEvent到Spring容器，
  * spring容器会找到实现了该事件监听接口的组件，并调用其onApplicationEvent()方法
  * @author Administrator
  *

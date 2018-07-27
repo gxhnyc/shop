@@ -15,7 +15,7 @@ import shop.service.CustomerService;
 @Controller
 public class HomeController {
 	/**
-	 * 首页 控制器
+	 * 首页 控制器（处理 / 请求）
 	 * @return
 	 */
 	private CellphoneService cellphoneService;

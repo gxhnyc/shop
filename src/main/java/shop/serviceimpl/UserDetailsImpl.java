@@ -1,15 +1,9 @@
 package shop.serviceimpl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-
-import org.springframework.security.core.GrantedAuthority;
+import java.util.Arrays;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import shop.entity.Customer;
 
 /**
@@ -32,33 +26,18 @@ public class UserDetailsImpl extends User{
 	
 	/**
 	 * 构造方法
-	 * @param operator
+	 * @param customer
 	 */
 	public UserDetailsImpl(Customer customer) {
+		
+		
 		super(customer.getUsername(),
-				customer.getPassword(),buildAuthorities(customer));
+				customer.getPassword(),
+				true,true,true,true,
+				Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+		
 		this.customer=customer;
 	}
-
-	
-	
-	/**
-	 * 	e.g.
-     *	ROLE_图书管理员
-     *	PERM_BOOK_RO
-     *	PERM_AUTHOR_RO
-     *	PERM_PUBLISHER_RO
-     *	将权限按以上格式设置到authorities属性中去
-	 * @param operator
-	 * @return
-	 */
-	private static List<GrantedAuthority> buildAuthorities(Customer customer) {
-
-		List<GrantedAuthority> authorities=new ArrayList<GrantedAuthority>();
-		
-		return authorities;
-	}
-
 	
 	
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace对应Mapper接口名  -->
+  <mapper namespace="shop.mapper.OrderMapper">  		
+  		
+  		<insert id="createOrder" useGeneratedKeys="true" keyColumn="o_id" keyProperty="o_id">
+  			 insert into orders values(orders_seq.nextval,#{c_id},#{shippingAddress.ship_id},#{createTime})  
+  		</insert>
+  		
+  		<insert id="createOrderItem">
+  			insert into order_item values(#{o_id},#{cellphone.cp_id},#{amount})
+  		</insert>
+  		
+  		<delete id="cleanOrders">
+  			delete from orders where c_id=#{c_id}
+  		</delete>
+  		
+  		<delete id="cleanCartItmes">
+  		
+  			delete from cart_item where c_id=#{c_id}
+  		</delete>
+  		
+  		<select id="findAllOrderItems" resultMap="OrderItemDetails">
+  		select o.o_id,o.createtime,
+                  oi.amount,
+                  c.cp_id,c.cp_brand,c.cp_model,c.cp_os,c.cp_cpu,c.cp_ram,c.cp_storage,
+                  c.cp_color,c.cp_description,c.cp_price,
+                  sa.ship_id,sa.consignee,sa.tel,sa.address
+          from orders o
+          inner join order_item oi on oi.o_id=o.o_id
+          left join cellphone c on c.cp_id=oi.cp_id
+          left join shippingaddress sa on sa.ship_id =o.ship_id
+					where o.o_id=#{o_id}
+  		</select>
+  		
+  		<select id="findAllOrders" resultType="Order">
+  			select * from orders where c_id=#{c_id} order by o_id desc
+  		</select>
+  		
+  		
+  		
+  		<resultMap type="OrderDetails" id="OrderItemDetails">
+  			<id column="o_id" property="o_id"/>
+  			<result column="createtime" property="createTime"/>
+  			<result column="c_id" property="c_id"/>
+  			<association property="shippingAddress" javaType="ShippingAddress">
+  				<id column="ship_id" property="ship_id"/>
+  				<result column="c_id" property="c_id"/>
+  				<result column="consignee" property="consignee"/>  				
+  				<result column="tel" property="tel"/>
+  				<result column="address" property="address"/>  				
+  			</association>
+  			<collection property="orderItems" ofType="OrderItem">
+  				<id column="o_id"/>
+  				<id column="cp_id"/>
+  				<result column="amount" property="amount"/>
+  				<association property="cellphone" javaType="Cellphone">
+  				  <id column="cp_id" property="cp_id" />
+			      <result column="cp_brand" property="cp_brand" />
+			      <result column="cp_model" property="cp_model" />
+			      <result column="cp_os" property="cp_os" />
+			      <result column="cp_cpu" property="cp_cpu" />
+			      <result column="cp_ram" property="cp_ram" />
+			      <result column="cp_storage" property="cp_storage" />
+			      <result column="cp_color" property="cp_color" />
+			      <result column="cp_description" property="cp_description" />
+			      <result column="cp_price" property="cp_price" />
+			      <result column="cp_cpu_cores" property="cp_cpu_cores" />
+			      <result column="image" property="image" />
+  			</association>
+  					
+  			</collection>
+  		</resultMap>
+  		
+  </mapper>

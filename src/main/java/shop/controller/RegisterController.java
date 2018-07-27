@@ -12,11 +12,16 @@ import shop.entity.Customer;
 import shop.exceptions.UserNameExistException;
 import shop.service.CustomerService;
 
+/**
+ * 用户注册控制器
+ * @author Administrator
+ *
+ */
 @Controller
-public class CustormerController {
+public class RegisterController {
 	private CustomerService customerService;
 	@Autowired
-	public CustormerController(CustomerService customerService) {
+	public RegisterController(CustomerService customerService) {
 		super();
 		this.customerService = customerService;
 	}

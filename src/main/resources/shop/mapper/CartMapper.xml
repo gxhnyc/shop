@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!--    namespace对应Mapper接口名  -->
+  <mapper namespace="shop.mapper.CartMapper">
+  		<insert id="addCartItem">
+  			insert into cart_item values(
+  				#{c_id},#{cp_id},#{amount}
+  			)  				
+  		</insert>
+  		
+  		<select id="findAmount" resultType="Integer">
+  			select amount from cart_item where cp_id=#{cp_id} and c_id=#{c_id}
+  		</select>
+  		
+  		<update id="addAmountToCartItem">
+  			update cart_item set amount=amount+#{amount}
+  				where cp_id=#{cp_id} and c_id=#{c_id}
+  		</update>
+  		
+  		<delete id="delCartItem">
+  			delete from cart_item where c_id=#{c_id} and cp_id=#{cp_id}
+  		</delete>
+  		
+  		<select id="findAllItems" resultMap="cartMap">
+  			select 	ci.c_id,ci.amount,
+	            	cp.cp_id,cp.cp_brand,cp.cp_model,cp.cp_os,cp.cp_cpu,cp.cp_ram,cp.cp_storage,
+	            	cp.cp_color,cp.cp_description,cp.cp_price,cp.cp_cpu_cores,cp.image 
+			from 	cart_item ci 
+		        	left join cellphone cp on ci.cp_id=cp.cp_id
+		    where ci.c_id=#{c_id}
+  		</select>
+  		
+  		<delete id="cleanCartItems">
+  			delete from cart_item where c_id=#{c_id}
+  		</delete>
+  		
+  		
+  		<resultMap type="CartItem" id="cartMap">
+  			<id column="c_id"/>
+  			<id column="cp_id"/>
+  			<result column="amount" property="amount"/>
+  			<association property="cellphone" javaType="Cellphone">
+  				  <id column="cp_id" property="cp_id" />
+			      <result column="cp_brand" property="cp_brand" />
+			      <result column="cp_model" property="cp_model" />
+			      <result column="cp_os" property="cp_os" />
+			      <result column="cp_cpu" property="cp_cpu" />
+			      <result column="cp_ram" property="cp_ram" />
+			      <result column="cp_storage" property="cp_storage" />
+			      <result column="cp_color" property="cp_color" />
+			      <result column="cp_description" property="cp_description" />
+			      <result column="cp_price" property="cp_price" />
+			      <result column="cp_cpu_cores" property="cp_cpu_cores" />
+			      <result column="image" property="image" />
+  			</association>
+  		</resultMap>
+  </mapper>

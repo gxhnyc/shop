@@ -3,6 +3,7 @@ package shop.serviceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import shop.entity.Customer;
 import shop.exceptions.UserNameExistException;
@@ -10,6 +11,7 @@ import shop.mapper.CustomerMapper;
 import shop.service.CustomerService;
 
 @Service
+@Transactional
 public class CustomerServiceImpl implements CustomerService {
 	
 	private CustomerMapper customerMapper;

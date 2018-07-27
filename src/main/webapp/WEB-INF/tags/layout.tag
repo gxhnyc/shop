@@ -35,14 +35,17 @@
 					<li>邮　箱：<a href="">【未登记邮箱】</a></li>
 				</c:otherwise>
 			</c:choose>	
-			<li>
+			
 			<c:choose>	
 				<c:when test="${c_username!=null||!c_username.equals('')}">
 					<li><!-- springsecurity默认的退出路径是：POST /logout，注意：springsecurity自带处理 -->
 						<form action="${contextPath }/logout" method="post">
 							<sec:csrfInput/>
+							<a href="${contextPath }/uc/showcart">【查看购物车】</a>
+							<a href="${contextPath }/uc/showorders">【我的订单】</a>
 							<button type="submit">退出</button>
 						</form>
+						
 					</li>
 				</c:when>
 				<c:otherwise>
@@ -61,7 +64,7 @@
 				</c:otherwise>
 			</c:choose>	
 			 
-			</li>
+			
 		</ul>
 	</div>
 	<hr>

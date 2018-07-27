@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
- <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>   
+<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>   
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <%-- 调用布局，内容将插入布局的content区域 --%>
