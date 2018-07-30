@@ -2,50 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<html>
-<head>
-<title>订单详情</title>
-<style type="text/css">
-body {
-	background: pink;
-	text-align: center;
-}
-
-div {
-	margin: 5px 350px;
-}
-
-ul {
-	float: left;
-	list-style-type: none;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	color: red;
-}
-
-.inline {
-	display: inline;
-}
-</style>
-
-
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<body>
-	<div>
-		<h2>订单详情</h2>
-		<hr>
-	</div>
-
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<t:layout title="订单详情">
 	<div>
 		<h2>
 			<a href="${contextPath }/">返回首页</a>
@@ -85,7 +47,14 @@ a:hover {
 			</c:if>
 			<tr>
 				<td colspan="5"><h3>总计: ￥${orderDetails.totalResult()/100}
-					</h3></td>
+					</h3>
+					<form action="${contextPath }/uc/cancel-order" method="post">
+						<sec:csrfInput/>
+						<input type="hidden" name="o_id" value="${orderDetails.o_id}">
+						<input type="submit" value="取消订单">
+					</form>
+					
+					</td>
 
 			</tr>
 		</table>
@@ -93,19 +62,10 @@ a:hover {
 			<form action=""method="post">
 				<sec:csrfInput/>
 				<input type="hidden" value="o_id">
-				<input type="submit" value="结算">
+				<input type="submit" value="结算订单">
 			</form>
+			
 		</div>
 		
 
-	
-
-	
-
-	<div>
-		<hr>
-		@Copyright 2008-2028<br /> <strong>三头牛科技有限公司</strong>
-
-	</div>
-</body>
-</html>
+</t:layout>

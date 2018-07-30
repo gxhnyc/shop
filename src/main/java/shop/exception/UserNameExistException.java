@@ -1,4 +1,4 @@
-package shop.exceptions;
+package shop.exception;
 /**
  * 用户名已存在 异常类
  * @author Administrator

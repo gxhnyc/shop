@@ -3,35 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<html>
-<head>
-<title>Cellphone-Details</title>
-<style type="text/css">
-	body{
-		background:pink;
-		text-align:center;
-	}
-	div{margin:5px 350px;}
-	ul{
-		float:left;
-		list-style-type:none;
-	}
-	a{
-		text-decoration:none;
-	}
-	a:hover{
-		color:red;
-	}
-</style>
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<body>
-	<div>
-		<h2>手机详细信息</h2>
-		<hr>
-	</div>
-	
+<t:layout title="手机详细信息">
 	<div>		
 		<h4>
 			<a href="${contextPath }/">【返回首页】</a>
@@ -63,11 +37,13 @@
 			</li>	    
   		</ul>	
 	</div>
-	<div style="clear:both">
+
+</t:layout>
+
+	
+	<!-- <div style="clear:both">
 		<hr>
 		@Copyright 2008-2028<br/>
 		<strong>三头牛科技有限公司</strong>
 	
-	</div>
-</body>
-</html>
+	</div> -->

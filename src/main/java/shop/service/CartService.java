@@ -2,6 +2,7 @@ package shop.service;
 
 import java.util.List;
 
+import shop.entity.Cart;
 import shop.entity.CartItem;
 
 
@@ -37,6 +38,19 @@ public interface CartService {
 	 * @param cp_id
 	 */
 	void incItem(Long c_id, String cp_id);
+	/**
+	 * ajax异步提交修改商品数量
+	 * @param c_id
+	 * @param cp_id
+	 * @param amount
+	 */
+	void updateItemAmount(Long c_id, String cp_id, Integer amount);
+	/**
+	 * 通过用户id查找购物车
+	 * @param c_id
+	 * @return
+	 */
+	Cart findOneByUserId(Long c_id);
 	
 	
 }

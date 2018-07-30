@@ -32,7 +32,7 @@ public class CellphoneDetailsController {
 	public String details(@ModelAttribute Cellphone cellphone,@PathVariable String id,Model model) {
 		
 		model.addAttribute("cellphone", cellphoneService.findByID(id));
-		return "cellphone-details";
+		return "show-cellphone-details";
 		
 	}
 }

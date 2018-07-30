@@ -1,4 +1,4 @@
-package shop.exceptions;
+package shop.exception;
 /**
  * 继承运行时异常类
  * @author Administrator

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.entity.Customer;
-import shop.exceptions.UserNameExistException;
+import shop.exception.UserNameExistException;
 import shop.mapper.CustomerMapper;
 import shop.service.CustomerService;
 

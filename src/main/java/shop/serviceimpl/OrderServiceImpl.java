@@ -9,12 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.entity.Cart;
 import shop.entity.CartItem;
-import shop.entity.Customer;
 import shop.entity.Order;
 import shop.entity.OrderDetails;
-import shop.entity.Order;
+
 import shop.entity.OrderItem;
-import shop.entity.Orders;
 import shop.entity.ShippingAddress;
 import shop.mapper.CartMapper;
 import shop.mapper.OrderMapper;
@@ -57,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
 		Cart cart=new Cart(cartMapper.findAllItems(c_id));		
 		for(CartItem citem:cart.getCartitems()) {
 			OrderItem oitem=new OrderItem();
-			oitem.setO_id(order.getO_id());//-----获取不到 订单id
+			oitem.setO_id(order.getO_id());//
 			oitem.setCellphone(citem.getCellphone());
 			oitem.setAmount(citem.getAmount());
 			orderMapper.createOrderItem(oitem);		
@@ -95,6 +93,29 @@ public class OrderServiceImpl implements OrderService {
 	public List<Order> findAllOrders(Long c_id) {
 		
 		return orderMapper.findAllOrders(c_id);
+	}
+
+	@Override //取消订单
+	public void cancelOrder(Long o_id, Long c_id) {
+		//1.将订单项的内容转移至购物车
+		
+		OrderDetails odetails=orderMapper.findAllOrderItems(o_id);
+		
+		for(OrderItem oitem:odetails.getOrderItems()) {
+			CartItem citem=new CartItem();
+			citem.setCellphone(oitem.getCellphone());
+			citem.setAmount(oitem.getAmount());
+			//根据用户id和地址及商品，创建购物项
+			cartMapper.addCartItem(citem.getCellphone().getCp_id(),c_id,citem.getAmount());
+		}
+		//2.取消订单（根据订单号和用户id）：删除order_item,删除order
+		
+		for(OrderItem oitem:odetails.getOrderItems()) {
+			
+			//根据订单id和商品id，删除订单项
+			orderMapper.cancelOrderItem(o_id,oitem.getCellphone().getCp_id());
+		}
+		orderMapper.cancelOrder(o_id,c_id);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.entity.Cart;
 import shop.entity.CartItem;
 
 import shop.mapper.CartMapper;
@@ -64,5 +65,20 @@ public class CartServiceImpl implements CartService {
 		}else {
 			cartMapper.addCartItem(cp_id, c_id, amount);
 		}	
+	}
+
+	@Override
+	public void updateItemAmount(Long c_id, String cp_id, Integer amount) {
+		 if (amount <= 0) {
+	            throw new IllegalArgumentException("购物车项的数量必须大于0");
+	        }
+	        cartMapper.updateItemAmount(c_id, cp_id, amount);
+	    }
+		
+
+	@Override
+	public Cart findOneByUserId(Long c_id) {
+		
+		 return new Cart(findAllItems(c_id));
 	}
 }

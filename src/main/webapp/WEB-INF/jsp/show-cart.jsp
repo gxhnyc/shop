@@ -1,42 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<t:layout title="购物车信息">
+	<jsp:attribute name="css">
+    	<sec:csrfMetaTags />
+	</jsp:attribute>
 
-<html>
-<head>
-<title>订单详情</title>
-<style type="text/css">
-	body{
-		background:pink;
-		text-align:center;
-	}
-	div{margin:5px 350px;}
-	ul{
-		float:left;
-		list-style-type:none;
-	}
-	a{
-		text-decoration:none;
-	}
-	a:hover{
-		color:red;
-	}
-	.inline{
-		display:inline;
-	}
-</style>
-
-
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<body>
-	<div>
-		<h2>我的订单</h2>
-		<hr>
-	</div>
-	
+	<jsp:attribute name="js">
+	  <script src="${contextPath}/assets/vendor/jquery-3.3.1.min.js"></script>
+	  <script src="${contextPath}/assets/js/shopping-cart.js"></script>
+	</jsp:attribute>
+	<jsp:body>
 	<div>		
 		<h2>
 			<a href="${contextPath }/">返回首页</a>
@@ -66,11 +44,20 @@
 				
 				<td>【${item.cellphone.cp_id}】</td>
 				<td>【${item.cellphone.cp_brand}】</td>
+				
 				<td>【${item.cellphone.cp_model}】</td>
 				<td>【${item.cellphone.cp_color}】</td>
 				<td>【${item.cellphone.cp_price/100}】</td>
 				<td>【${item.cellphone.cp_price/100 *item.amount}】</td>
+				
 				<td>
+                	<input type="number" min="1" value="${item.amount}"
+								class="item-amount" data-cellphone-id="${item.cellphone.cp_id}">  
+              	</td>
+				
+				
+				
+				<%-- <td>
 					<form action="${contextPath}/uc/shopping-cart/item-dec" method="post" class="inline">
 			            <sec:csrfInput />
 			            <input type="hidden" name="cp_id" value="${item.cellphone.cp_id}">
@@ -82,37 +69,33 @@
 			            <input type="hidden" name="cp_id" value="${item.cellphone.cp_id}">
 			            <button type="submit">+</button>
 		          	</form>          
-        		</td>
+        		</td> --%>
        	
 				<td>
 					<form action="${contextPath }/uc/remove-item" method="post">
-						<sec:csrfInput/>
+						<sec:csrfInput />
 						<input type="hidden" name="cp_id" value="${item.cellphone.cp_id}">
 						<input type="submit" value="删除">
 					</form>
 				</td>
 			</tr>
 			</c:forEach>
-			</c:if>
+			<hr>
 			<tr>
-				<td colspan="5"><h3>总计: ￥${shoppingCart.totalResult()/100} </h3></td>
-				<td>
-					<form action="${contextPath }/uc/showorders" method="post">
-						<sec:csrfInput/>
-						<input type="submit" value="结算">
-					</form>
+			
+				<td colspan="5">总金额: ￥
+					
+					<span id="totalCost">${shoppingCart.totalResult() / 100}</span>
+				
+					<a href="${contextPath }/uc/create-order">【创建订单】</a>
 				</td>
+				
 			</tr>
+			</c:if>
 		</table>
-		
-	</div>
+			
+	</div>	
 	
-	
-	<div>
-		<hr>
-		@Copyright 2008-2028<br/>
-		<strong>三头牛科技有限公司</strong>
-	
-	</div>
-</body>
-</html>
+</jsp:body>
+</t:layout>
+

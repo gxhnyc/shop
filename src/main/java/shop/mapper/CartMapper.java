@@ -68,6 +68,17 @@ public interface CartMapper {
 	 * @param c_id
 	 */
 	void cleanCartItems(Long c_id);
+
+	/**
+	 * ajax异步提交修改商品数量
+	 * @param c_id
+	 * @param cp_id
+	 * @param amount
+	 */
+	void updateItemAmount(@Param("c_id") Long c_id, 
+							@Param("cp_id") String cp_id,
+							@Param("amount") Integer amount);
+
 	
 	
 }

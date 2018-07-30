@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import shop.entity.Customer;
-import shop.exceptions.UserNameExistException;
+import shop.exception.UserNameExistException;
 import shop.service.CustomerService;
 
 /**

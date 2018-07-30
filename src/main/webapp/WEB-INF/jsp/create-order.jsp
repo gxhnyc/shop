@@ -4,47 +4,14 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<html>
-<head>
-<title>创建订单...</title>
-<style type="text/css">
-	body{
-		background:pink;
-		text-align:center;
-	}
-	div{margin:5px 350px;}
-	ul{
-		float:left;
-		list-style-type:none;
-	}
-	a{
-		text-decoration:none;
-	}
-	a:hover{
-		color:red;
-	}
-	.inline{
-		display:inline;
-	}
-</style>
-
-
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<body>
-	<div>
-		<h2>创建订单...</h2>
-		<hr>
-	</div>
-	
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<t:layout title="创建订单...">
 	<div>		
 		<h2>
 			<a href="${contextPath }/">返回首页</a>
 		</h2>
 	</div>
-	<div>
-		
+	<div>		
 		<table>
 			<tr>
 				<th>手机VPN编号</th>
@@ -63,8 +30,7 @@
 			</c:if>
 			<c:if test="${not empty shoppingCart.cartitems}">
 			<c:forEach items="${ shoppingCart.cartitems}" var="item">
-			<tr>
-				
+			<tr>				
 				<td>【${item.cellphone.cp_id}】</td>
 				<td>【${item.cellphone.cp_brand}】</td>
 				<td>【${item.cellphone.cp_model}】</td>
@@ -72,19 +38,10 @@
 				<td>【${item.cellphone.cp_price/100}】</td>
 				<td>【${item.cellphone.cp_price/100 *item.amount}】</td>
 				<td>
-					<form action="${contextPath}/uc/shopping-cart/item-dec" method="post" class="inline">
-			            <sec:csrfInput />
-			            <input type="hidden" name="cp_id" value="${item.cellphone.cp_id}">
-			            <button type="submit">-</button>
-		          	</form>        
+					
 		          	${item.amount}
-		          	<form action="${contextPath}/uc/shopping-cart/item-inc" method="post" class="inline">
-			            <sec:csrfInput />
-			            <input type="hidden" name="cp_id" value="${item.cellphone.cp_id}">
-			            <button type="submit">+</button>
-		          	</form>          
-        		</td>
-       	
+		          	          
+        		</td>       	
 				<td>
 					<form action="${contextPath }/uc/remove-item" method="post">
 						<sec:csrfInput/>
@@ -96,20 +53,16 @@
 			</c:forEach>
 			</c:if>
 			<tr>
-				<td colspan="5"><h3>总计: ￥${shoppingCart.totalResult()/100} </h3></td>
-							
+				<td colspan="5"><h3>总计: ￥${shoppingCart.totalResult()/100} </h3></td>							
 			</tr>
 		</table>
 			<hr>
 	</div>
 	<!-- 添加地址 -->
 	<div>
-		<%-- <a href="${contextPath }/uc/add-address">【新建收货地址】</a> --%>
-		
-		
+		<%-- <a href="${contextPath }/uc/add-address">【新建收货地址】</a> --%>		
 		<form:form action="" method="post" commandName="orderForm">
-		<sec:csrfInput/>
-		
+		<sec:csrfInput/>		
 		    <div>
 		      <label for="shippingAddressID"><h4>收货人地址列表</h4></label>
 		      <form:select path="shippingAddressID">		      
@@ -123,15 +76,6 @@
 		      <form:errors path="shippingAddressID" cssClass="add-error"></form:errors>
 		    </div>
 				<button type="submit">提交订单</button>		
-		</form:form>
-		
+		</form:form>		
 	</div>
-	
-	<div>
-		<hr>
-		@Copyright 2008-2028<br/>
-		<strong>三头牛科技有限公司</strong>
-	
-	</div>
-</body>
-</html>
+</t:layout>

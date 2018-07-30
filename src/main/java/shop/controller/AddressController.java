@@ -1,5 +1,7 @@
 package shop.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,17 @@ public class AddressController {
 		super();
 		this.addressService = addressService;
 	}
+	//查看我的收货地址/uc/showaddress
+	@RequestMapping(method=RequestMethod.GET,value="/uc/showaddress")
+	public String showAddress(Model model,
+			@AuthenticationPrincipal(expression="customer.c_id") Long c_id) {
+		
+		List<ShippingAddress> addresses=addressService.findAllAddress(c_id);
+		model.addAttribute("addresses", addresses);
+		
+		return "show-address";		
+	}
+	
 	
 	//添加收件地址
 		@RequestMapping(method=RequestMethod.GET,value="/uc/add-address")

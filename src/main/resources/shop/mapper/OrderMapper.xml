@@ -76,4 +76,13 @@
   			</collection>
   		</resultMap>
   		
+  		<delete id="cancelOrderItem">
+  			delete from order_item where o_id=#{o_id} and cp_id=#{cp_id}
+  		</delete>
+  		
+  		
+  		<delete id="cancelOrder">
+  			delete from orders where o_id=#{o_id} and c_id=#{c_id}
+  		</delete>
+  		
   </mapper>

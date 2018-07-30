@@ -97,7 +97,7 @@ public class OrderController {
 			OrderDetails orderDetails=orderService.findAllOrderItems(o_id);
 			model.addAttribute("orderDetails", orderDetails);
 			
-			return "order-details";
+			return "show-order-details";
 			
 		}
 		
@@ -118,20 +118,35 @@ public class OrderController {
 			Orders orders=new Orders(orderService.findAllOrders(c_id));
 			model.addAttribute("orders", orders);
 			
-			return "showorders";
+			return "show-orders";
 			
 		}
 		//----订单详情-----------------
-				@RequestMapping(method=RequestMethod.GET,value="/uc/order-details/{o_id}")
-				public String OrderDetails(
-											@PathVariable Long o_id,
-											Model model,
-											@AuthenticationPrincipal(expression="customer.c_id") Long c_id)
-				{
-					OrderDetails orderDetails=orderService.findAllOrderItems(o_id);
-					model.addAttribute("orderDetails", orderDetails);
-					
-					return "order-details";
-					
-				}
+		@RequestMapping(method=RequestMethod.GET,value="/uc/order-details/{o_id}")
+		public String OrderDetails(
+									@PathVariable Long o_id,
+									Model model,
+									@AuthenticationPrincipal(expression="customer.c_id") Long c_id)
+		{
+			OrderDetails orderDetails=orderService.findAllOrderItems(o_id);
+			model.addAttribute("orderDetails", orderDetails);
+			
+			return "show-order-details";
+			
+		}
+				
+				
+		@RequestMapping(method=RequestMethod.POST,value="/uc/cancel-order")
+		public String cancelOrder(
+				@ModelAttribute OrderForm orderForm,
+				Model model,
+				@AuthenticationPrincipal(expression="customer.c_id") Long c_id,
+				@RequestParam Long o_id				
+				) {
+			System.out.println("OrderController.cancelOrder--o_id:"+o_id);
+			
+			//取消订单	
+			orderService.cancelOrder(o_id,c_id);
+			return "redirect:/";		
+		}	
 }

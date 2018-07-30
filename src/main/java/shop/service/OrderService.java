@@ -5,8 +5,6 @@ import java.util.List;
 
 import shop.entity.Order;
 import shop.entity.OrderDetails;
-import shop.entity.OrderItem;
-import shop.entity.Orders;
 
 public interface OrderService {
 	
@@ -52,6 +50,12 @@ public interface OrderService {
 	 * @return
 	 */
 	List<Order> findAllOrders(Long c_id);
+	/**
+	 * 取消订单
+	 * @param o_id
+	 * @param c_id
+	 */
+	void cancelOrder(Long o_id, Long c_id);
 	
 	
 }

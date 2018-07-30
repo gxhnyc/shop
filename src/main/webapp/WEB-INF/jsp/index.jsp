@@ -9,7 +9,7 @@
 <t:layout title="首页">
  	<div>
  	<c:choose>
- 		<c:when test="${c_username !=null||c_username!=''}">
+ 		<c:when test="${c_username !=null}">
  		【${c_username }】您好，欢迎来到我们的首页！
  		</c:when>
  		<c:otherwise>

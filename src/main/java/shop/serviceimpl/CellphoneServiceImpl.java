@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.entity.Cellphone;
-import shop.exceptions.ModelExistExcption;
+import shop.exception.ModelExistExcption;
 import shop.mapper.CellphoneMapper;
 import shop.service.CellphoneService;
 

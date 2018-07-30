@@ -58,4 +58,10 @@
 			      <result column="image" property="image" />
   			</association>
   		</resultMap>
+  		
+  		<update id="updateItemAmount">
+		    update CART_ITEM 
+		    set AMOUNT = #{amount} 
+		    where C_ID = #{c_id} and CP_ID = #{cp_id}    
+		</update>
   </mapper>

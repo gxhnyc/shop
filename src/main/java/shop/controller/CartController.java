@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import shop.entity.Cart;
 import shop.entity.CartItem;
@@ -47,7 +48,7 @@ public class CartController {
 			List<ShippingAddress> addresses=addressService.findAllAddress(c_id);
 			model.addAttribute("addresses", addresses);
 			model.addAttribute("shoppingCart", new Cart(cartItems));
-			return "shopping-cart";
+			return "show-cart";
 			
 		}
 	//添加至购物车
@@ -75,7 +76,7 @@ public class CartController {
 		return "shopping-cart";
 		
 	}
-	//购物项+1：/uc/shopping-cart/item-inc
+	/*//购物项+1：/uc/shopping-cart/item-inc
 	@RequestMapping(method=RequestMethod.POST,value="/uc/shopping-cart/item-inc")
 	public String itemDec(@RequestParam String cp_id,
 							@AuthenticationPrincipal(expression="customer.c_id") Long c_id) 
@@ -94,8 +95,16 @@ public class CartController {
 		
 		return "redirect:/uc/showcart";
 		
-	}
-	
+	}*/
+	//ajax异步提交更新购物项商品数量
+	  @RequestMapping(method = RequestMethod.POST, value = "/uc/shopping-cart/update-item-amount")
+	    @ResponseBody // 把返回值作为响应内容，加了jackson库之后，会转换为json文本
+	    public Cart updateItemAmount(@AuthenticationPrincipal(expression="customer.c_id") Long c_id,
+	                                         @RequestParam String cp_id,
+	                                         @RequestParam Integer amount) {
+	        cartService.updateItemAmount(c_id, cp_id, amount);
+	        return cartService.findOneByUserId(c_id);
+	    }
 	
 	
 	

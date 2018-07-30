@@ -1,4 +1,4 @@
-package shop.exceptions;
+package shop.exception;
 
 /**
  * 手机型号已存在异常

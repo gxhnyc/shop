@@ -4,13 +4,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath }"></c:set> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+
+<t:layout title="添加地址">
 	<div>
 		  <form:form action="${contextPath }/uc/add-address" method="post" commandName="shippingAddress">
 		  	<sec:csrfInput/>
@@ -37,5 +33,6 @@
 		    </div>
   	</form:form>
   	</div>
-</body>
-</html>
+	
+</t:layout>
+

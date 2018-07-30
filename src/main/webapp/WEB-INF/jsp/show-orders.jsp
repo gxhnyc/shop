@@ -5,54 +5,16 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<html>
-<head>
-<title>所有订单</title>
-<style type="text/css">
-body {
-	background: pink;
-	text-align: center;
-}
-
-div {
-	margin: 5px 350px;
-}
-
-ul {
-	float: left;
-	list-style-type: none;
-}
-
-a {
-	text-decoration: none;
-}
-
-a:hover {
-	color: red;
-}
-
-.inline {
-	display: inline;
-}
-</style>
-
-
-</head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<body>
-	<div>
-		<h2>所有订单</h2>
-		<hr>
-	</div>
-
+<t:layout title="所有订单">
 	<div>
 		<h2>
 			<a href="${contextPath }/">返回首页</a>
 		</h2>
 	</div>
 	<div>
-
 		<table>
 			<tr>
 				<th>订单编号</th>
@@ -70,7 +32,7 @@ a:hover {
 					<tr>
 
 						<td><a href="${contextPath }/uc/order-details/${order.o_id}">【${order.o_id}】</a></td>
-						<td>【${order.createTime}】</td>
+						<td>【<fmt:formatDate value="${order.createTime}"  pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>】</td>
 						<td>
 							<form action="${contextPath }/uc/del-order/${order.o_id}"
 								method="post">
@@ -90,13 +52,6 @@ a:hover {
 				</c:forEach>
 			</c:if>
 		</table>
-
 	</div>
+</t:layout>
 
-	<div>
-		<hr>
-		@Copyright 2008-2028<br /> <strong>三头牛科技有限公司</strong>
-
-	</div>
-</body>
-</html>

@@ -59,4 +59,18 @@ public interface OrderMapper {
 	 */
 	List<Order> findAllOrders(Long c_id);
 	
+	/**
+	 * 根据订单号及用户Id取消订单
+	 * @param o_id
+	 * @param c_id
+	 */
+	void cancelOrder(@Param("o_id") Long o_id, @Param("c_id") Long c_id);
+	
+	/**
+	 * 根据订单id和商品id删除订单项
+	 * @param o_id
+	 * @param cp_id
+	 */
+	void cancelOrderItem(@Param("o_id") Long o_id,@Param("cp_id") String cp_id);
+	
 }
