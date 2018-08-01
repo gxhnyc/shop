@@ -5,9 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import shop.entity.Order;
-import shop.entity.OrderDetails;
 import shop.entity.OrderItem;
-import shop.entity.Orders;
+
 
 public interface OrderMapper {
 	
@@ -49,13 +48,13 @@ public interface OrderMapper {
 	 * @param o_id
 	 * @return
 	 */
-	OrderDetails findAllOrderItems(@Param("o_id") Long o_id);
+	Order findAllOrderItems(@Param("o_id") Long o_id);
 	
 
 	/**
 	 * 查询当前用户下的所有订单
 	 * @param c_id
-	 * @return
+	 * @return OrderDetails
 	 */
 	List<Order> findAllOrders(Long c_id);
 	
@@ -72,5 +71,13 @@ public interface OrderMapper {
 	 * @param cp_id
 	 */
 	void cancelOrderItem(@Param("o_id") Long o_id,@Param("cp_id") String cp_id);
+
+	/**
+	 * 通过订单号和用户id查找订单
+	 * @param userId
+	 * @param id
+	 * @return
+	 */
+	Order findOneById(@Param("c_id") Long c_id,@Param("o_id") Long o_id);
 	
 }

@@ -19,8 +19,9 @@
 			<tr>
 				<th>订单编号</th>
 				<th>创建时间</th>
+				<th>订单状态</th>
 				<th>删除订单</th>
-				<th>结算</th>
+				
 			</tr>
 			<c:if test="${empty orders}">
 				<tr>
@@ -28,26 +29,23 @@
 				</tr>
 			</c:if>
 			<c:if test="${not empty orders}">
-				<c:forEach items="${orders.orders}" var="order">
+				<c:forEach items="${orders}" var="order">
 					<tr>
 
 						<td><a href="${contextPath }/uc/order-details/${order.o_id}">【${order.o_id}】</a></td>
-						<td>【<fmt:formatDate value="${order.createTime}"  pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatDate>】</td>
+						<td>【<fmt:formatDate value="${order.createTime}"  pattern="YYYY-MM-DD HH:mm:ss"></fmt:formatDate>】</td>
+						<td>【${order.stateText()}】</td>
 						<td>
-							<form action="${contextPath }/uc/del-order/${order.o_id}"
-								method="post">
-								<sec:csrfInput />
-								<input type="hidden" value="o_id"> <input type="submit"
-									value="删除">
-							</form>
+							<a href="${contextPath }/uc/del-order/${order.o_id}">【删除】</a>
+							
 						</td>
-						<td>
+						<%-- <td>
 							<form action="" method="post">
 								<sec:csrfInput />
 								<input type="hidden" value="o_id"> <input type="submit"
 									value="结算">
 							</form>
-						</td>
+						</td> --%>
 					</tr>
 				</c:forEach>
 			</c:if>

@@ -9,11 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.entity.Cart;
 import shop.entity.CartItem;
+
 import shop.entity.Order;
-import shop.entity.OrderDetails;
 
 import shop.entity.OrderItem;
 import shop.entity.ShippingAddress;
+import shop.entity.model.OrderState;
 import shop.mapper.CartMapper;
 import shop.mapper.OrderMapper;
 import shop.service.OrderService;
@@ -47,6 +48,8 @@ public class OrderServiceImpl implements OrderService {
 		shippingAddress.setShip_id(ship_id);
 		order.setShippingAddress(shippingAddress);		
 		order.setCreateTime(new Date());
+		
+		order.setOrderState(OrderState.Created);
 		
 		orderMapper.createOrder(order);
 		System.out.println(order.getC_id()+"--------"+order.getCreateTime()+"----"+order.getO_id());
@@ -84,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
 
 	
 	@Override
-	public OrderDetails findAllOrderItems(Long o_id) {
+	public Order findAllOrderItems(Long o_id) {
 		
 		return orderMapper.findAllOrderItems(o_id);
 	}
@@ -99,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
 	public void cancelOrder(Long o_id, Long c_id) {
 		//1.将订单项的内容转移至购物车
 		
-		OrderDetails odetails=orderMapper.findAllOrderItems(o_id);
+		Order odetails=orderMapper.findAllOrderItems(o_id);
 		
 		for(OrderItem oitem:odetails.getOrderItems()) {
 			CartItem citem=new CartItem();
@@ -116,6 +119,29 @@ public class OrderServiceImpl implements OrderService {
 			orderMapper.cancelOrderItem(o_id,oitem.getCellphone().getCp_id());
 		}
 		orderMapper.cancelOrder(o_id,c_id);
+	}
+
+	@Override
+	public void delOrder(Long o_id, Long c_id) {
+	//1.将订单项的内容直接删除
+		
+		Order odetails=orderMapper.findAllOrderItems(o_id);
+		
+		//2.删除订单（根据订单号和用户id）：删除order_item,删除order
+		
+		for(OrderItem oitem:odetails.getOrderItems()) {
+			
+			//根据订单id和商品id，删除订单项
+			orderMapper.cancelOrderItem(o_id,oitem.getCellphone().getCp_id());
+		}
+		orderMapper.cancelOrder(o_id,c_id);
+		
+	}
+
+	@Override
+	public Order findOneById(Long c_id, Long o_id) {
+		
+		return orderMapper.findOneById(c_id,o_id);
 	}
 
 }

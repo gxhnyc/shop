@@ -2,9 +2,7 @@ package shop.service;
 
 import java.util.List;
 
-
 import shop.entity.Order;
-import shop.entity.OrderDetails;
 
 public interface OrderService {
 	
@@ -42,7 +40,7 @@ public interface OrderService {
 	 * @param o_id
 	 * @return
 	 */
-	OrderDetails findAllOrderItems(Long o_id);
+	Order findAllOrderItems(Long o_id);
 	
 	/**
 	 * 查询当前用户下的所有订单
@@ -56,6 +54,19 @@ public interface OrderService {
 	 * @param c_id
 	 */
 	void cancelOrder(Long o_id, Long c_id);
+	/**
+	 * 删除订单
+	 * @param o_id
+	 * @param c_id
+	 */
+	void delOrder(Long o_id, Long c_id);
+	/**
+	 * 通过订单号和用户id查找订单
+	 * @param userId
+	 * @param id
+	 * @return
+	 */
+	Order findOneById(Long userId, Long o_id);
 	
 	
 }

@@ -127,5 +127,20 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>4.2.3.RELEASE</version>
 		</dependency>
+		
+		<!-- 支付宝支付接口组件 -->
+		<dependency>
+			<groupId>com.alipay.sdk</groupId>
+			<artifactId>alipay-sdk-java</artifactId>
+			<version>3.3.4.ALL</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+
 	</dependencies>
 </project>

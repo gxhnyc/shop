@@ -1,7 +1,11 @@
 package shop.config;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.sql.DataSource;
 
+import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +24,9 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
 
 @Configuration
 @ComponentScan("shop")
@@ -82,5 +89,23 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 				
 		configurer.enable();
 	}
+	
+	/**
+	 * 支付宝组件
+	 * @return
+	 * @throws IOException
+	 */
+	@Bean
+    public AlipayClient alipayClient() throws IOException {
+        return new DefaultAlipayClient(
+                "https://openapi.alipay.com/gateway.do",//支付宝网关，固定
+                "2018052360246120",//	APPID 即创建应用后生成
+                FileUtils.readFileToString(new File("D:/zhujunqi/alipay/app-private-key.txt"), "UTF-8"),//开发者私钥，由开发者自己生成
+                "json",//参数返回格式，只支持json
+                "UTF-8",//编码集，支持GBK/UTF-8
+                FileUtils.readFileToString(new File("D:/zhujunqi/alipay/alipay-public-key.txt"), "UTF-8"),//支付宝公钥，由支付宝生成
+                "RSA2"//商户生成签名字符串所使用的签名算法类型，目前支持RSA2和RSA，推荐使用RSA2
+                );
+    }
 	
 }

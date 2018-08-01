@@ -8,7 +8,7 @@
   <mapper namespace="shop.mapper.OrderMapper">  		
   		
   		<insert id="createOrder" useGeneratedKeys="true" keyColumn="o_id" keyProperty="o_id">
-  			 insert into orders values(orders_seq.nextval,#{c_id},#{shippingAddress.ship_id},#{createTime})  
+  			 insert into orders values(orders_seq.nextval,#{c_id},#{shippingAddress.ship_id},#{createTime},#{orderState})  
   		</insert>
   		
   		<insert id="createOrderItem">
@@ -25,7 +25,7 @@
   		</delete>
   		
   		<select id="findAllOrderItems" resultMap="OrderItemDetails">
-  		select o.o_id,o.createtime,
+  		select o.o_id,o.createtime,o.state,
                   oi.amount,
                   c.cp_id,c.cp_brand,c.cp_model,c.cp_os,c.cp_cpu,c.cp_ram,c.cp_storage,
                   c.cp_color,c.cp_description,c.cp_price,
@@ -38,15 +38,16 @@
   		</select>
   		
   		<select id="findAllOrders" resultType="Order">
-  			select * from orders where c_id=#{c_id} order by o_id desc
+  			select o_id,c_id,ship_id,createtime,state orderState from orders where c_id=#{c_id} order by o_id desc
   		</select>
   		
   		
   		
-  		<resultMap type="OrderDetails" id="OrderItemDetails">
+  		<resultMap type="Order" id="OrderItemDetails">
   			<id column="o_id" property="o_id"/>
   			<result column="createtime" property="createTime"/>
   			<result column="c_id" property="c_id"/>
+  			<result column="state" property="orderState"/>
   			<association property="shippingAddress" javaType="ShippingAddress">
   				<id column="ship_id" property="ship_id"/>
   				<result column="c_id" property="c_id"/>
@@ -84,5 +85,10 @@
   		<delete id="cancelOrder">
   			delete from orders where o_id=#{o_id} and c_id=#{c_id}
   		</delete>
+  		
+  		<select id="findOneById" resultType="Order">
+  			select o_id,c_id,ship_id,createtime,state orderState from orders 
+  				where c_id=#{c_id} and o_id=#{o_id}
+  		</select>
   		
   </mapper>
