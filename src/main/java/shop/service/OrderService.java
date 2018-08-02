@@ -67,6 +67,13 @@ public interface OrderService {
 	 * @return
 	 */
 	Order findOneById(Long userId, Long o_id);
+	/**
+	 * 点击支付宝支付
+	 * @param c_id
+	 * @param o_id
+	 * @return
+	 */
+	String aliPay(Long c_id, Long o_id);
 	
 	
 }

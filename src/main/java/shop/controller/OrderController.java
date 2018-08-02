@@ -46,16 +46,14 @@ public class OrderController {
 	private AddressService addressService;
 	private CartService cartService;
 
-	private AlipayClient alipayClient;
+
 
 	@Autowired
-	public OrderController(OrderService orderService, AddressService addressService, CartService cartService,
-			AlipayClient alipayClient) {
+	public OrderController(OrderService orderService, AddressService addressService, CartService cartService) {
 		super();
 		this.orderService = orderService;
 		this.addressService = addressService;
 		this.cartService = cartService;
-		this.alipayClient = alipayClient;
 	}
 
 	// ---创建订单-----------
@@ -160,36 +158,17 @@ public class OrderController {
 		return "redirect:/";
 	}
 
-	// 支付宝支付
+	// 点击支付宝支付
 	@RequestMapping(method = RequestMethod.POST, value = "/uc/orders/{o_id}/pay", 
 			produces = "text/html;charset=UTF-8"	) // 非常重要，支付宝api响应是html片段（不含编码），必须显式指定
 	@ResponseBody
 	public String pay(@AuthenticationPrincipal(expression = "customer.c_id") Long c_id, 
 			@PathVariable Long o_id)
 			throws AlipayApiException {
-		Order order = orderService.findAllOrderItems(o_id);
-
-		if (order.getOrderState() != OrderState.Created) {
-			throw new IllegalStateException("只有Created状态的订单才能发起支付");
-		}
-
-		BigDecimal totalAmount = BigDecimal.valueOf(order.totalResult()).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
-		System.out.println("totalAmount:" + totalAmount);
-
-		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 即将发送给支付宝的请求（电脑网站支付请求）
-		alipayRequest.setReturnUrl("http://shop.me/shop/uc/orders/sync-pay-cb"); // 浏览器端完成支付后跳转回商户的地址（同步通知）
-		alipayRequest.setNotifyUrl("http://shop.me/shop/async-pay-cb"); // 支付宝服务端确认支付成功后通知商户的地址（异步通知）
-		alipayRequest
-				.setBizContent("{" + "    \"out_trade_no\":\"" + o_id.toString() + "-" + new Date().getTime() + "\"," + // 商户订单号，加时间戳是为了避免测试时订单号重复
-						"    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + // 产品码，固定
-						"    \"total_amount\":" + totalAmount.toString() + "," + // 订单总金额（元）
-						"    \"subject\":\"shop手机商城订单支付\"," + // 订单标题
-						"    \"body\":\"TODO 显示订单项概要\"" + // 订单描述
-						"  }"); // 填充业务参数
-
-		// 直接将完整的表单html输出到页面
-		return alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成支付表单
+		
+		return orderService.aliPay(c_id,o_id);
 	}
+	
 	//支付宝支付成功后跳转页面
 	@RequestMapping(method = RequestMethod.GET, value = "/uc/orders/sync-pay-cb")
 	public String payOk(@RequestParam("out_trade_no") String orderNumber, Model model) {

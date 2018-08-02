@@ -60,12 +60,6 @@
 						<input type="hidden" name="o_id" value="${orderDetails.o_id}">
 						<input type="submit" value="取消订单">
 					</form>
-					
-					<form action="" method="post">
-						<sec:csrfInput />
-						<input type="hidden" value="o_id"> <input type="submit"
-							value="结算订单">
-					</form>
 				</td>
 
 				

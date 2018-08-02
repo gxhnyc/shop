@@ -1,11 +1,17 @@
 package shop.serviceimpl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 
 import shop.entity.Cart;
 import shop.entity.CartItem;
@@ -25,11 +31,21 @@ public class OrderServiceImpl implements OrderService {
 
 	private OrderMapper orderMapper;
 	private CartMapper cartMapper;
+	private AlipayClient alipayClient;
+	
+	private String alipayReturnUrl;
+	private String alipayNotifyUrl;
+	
 	@Autowired	
-	public OrderServiceImpl(OrderMapper orderMapper,CartMapper cartMapper) {
+	public OrderServiceImpl(OrderMapper orderMapper,CartMapper cartMapper,AlipayClient alipayClient,
+							Environment env) {
 		super();
 		this.orderMapper = orderMapper;
 		this.cartMapper=cartMapper;
+		this.alipayClient=alipayClient;
+		
+		this.alipayReturnUrl=env.getProperty("alipay.returnUrl");
+		this.alipayNotifyUrl=env.getProperty("alipay.notifyUrl");
 	}
 
 	@Override
@@ -142,6 +158,42 @@ public class OrderServiceImpl implements OrderService {
 	public Order findOneById(Long c_id, Long o_id) {
 		
 		return orderMapper.findOneById(c_id,o_id);
+	}
+
+	@Override
+	public String aliPay(Long c_id, Long o_id) {
+		//1.根据订单号找到订单（订单数据）
+		Order order = findAllOrderItems(o_id);
+		//2.判断订单状态是否为已创建（下一步是‘已支付’），以确定是否发起支付
+		if (order.getOrderState() != OrderState.Created) {
+			throw new IllegalStateException("只有Created状态的订单才能发起支付");
+		}
+		//支付宝交易采用的是bigDecimal数据类型，单位是元
+		BigDecimal totalAmount = BigDecimal.valueOf(order.totalResult()).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
+		System.out.println("totalAmount:" + totalAmount);
+		
+		//3.发送给支付宝的请求（用户从网站发起支付请求）
+		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 即将发送给支付宝的请求（电脑网站支付请求）
+		// 浏览器端完成支付后跳转回商户的地址（同步通知）
+		alipayRequest.setReturnUrl(alipayReturnUrl); 
+		 // 支付宝服务端确认支付成功后通知商户的地址（异步通知）
+		alipayRequest.setNotifyUrl(alipayNotifyUrl);
+		
+		alipayRequest
+				.setBizContent("{" + "    \"out_trade_no\":\"" + o_id.toString() + "-" + new Date().getTime() + "\"," + // 商户订单号，加时间戳是为了避免测试时订单号重复
+						"    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + // 产品码，固定
+						"    \"total_amount\":" + totalAmount.toString() + "," + // 订单总金额（元）
+						"    \"subject\":\"shop手机商城订单支付\"," + // 订单标题
+						"    \"body\":\"TODO 显示订单项概要\"" + // 订单描述
+						"  }"); // 填充业务参数
+
+		// 直接将完整的表单html输出到页面
+		try {
+			return alipayClient.pageExecute(alipayRequest).getBody();
+		} catch (AlipayApiException e) {
+			throw new RuntimeException(e);
+		} // 调用SDK生成支付表单
+		
 	}
 
 }

@@ -26,7 +26,7 @@
 		        <option value="">--请选择品牌--</option>
 		        <option value="apple">apple</option>
 		        <option value="锤子">锤子</option>
-		        <option value="华为">华为</option>
+		        <option value="HUWEI">华为</option>
 		      </select>
 		    </div>
 		    
