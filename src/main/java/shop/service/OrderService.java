@@ -1,8 +1,10 @@
 package shop.service;
 
 import java.util.List;
+import java.util.Map;
 
 import shop.entity.Order;
+import shop.exception.AlipaySignatureException;
 
 public interface OrderService {
 	
@@ -71,9 +73,15 @@ public interface OrderService {
 	 * 点击支付宝支付
 	 * @param c_id
 	 * @param o_id
-	 * @return
+	 * @return payForm表单
 	 */
 	String aliPay(Long c_id, Long o_id);
+	/**
+	 * 支付宝验签
+	 * @param paramMap
+	 * @throws AlipaySignatureException
+	 */
+	void verifySignature(Map<String, String> paramMap) throws AlipaySignatureException;
 	
 	
 }

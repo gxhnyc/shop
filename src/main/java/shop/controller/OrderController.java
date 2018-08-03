@@ -3,6 +3,7 @@ package shop.controller;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -171,7 +172,17 @@ public class OrderController {
 	
 	//支付宝支付成功后跳转页面
 	@RequestMapping(method = RequestMethod.GET, value = "/uc/orders/sync-pay-cb")
-	public String payOk(@RequestParam("out_trade_no") String orderNumber, Model model) {
+	public String payOk(@RequestParam("out_trade_no") String orderNumber,
+			 @RequestParam Map<String, String> paramMap, // 将所有请求参数封装到map中
+			Model model) {
+		/*1.同步验签：支付宝服务器在买家成功支付后，提交get请求至商家服务器，
+		 *	商家服务器对支付宝发来的请求进行验签
+		 */
+		orderService.verifySignature(paramMap);
+		
+		/*
+		 * 2.同步验签完成后，商家服务器将支付成功页面返回给买家
+		 */
 		Long orderId = Long.valueOf(orderNumber.split("-")[0]); // 如 3-1533093080374
 		model.addAttribute("orderId", orderId);
 		return "order-pay-ok";

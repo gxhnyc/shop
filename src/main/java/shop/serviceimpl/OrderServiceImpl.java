@@ -1,11 +1,14 @@
 package shop.serviceimpl;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,6 +28,7 @@ import shop.entity.Order;
 import shop.entity.OrderItem;
 import shop.entity.ShippingAddress;
 import shop.entity.model.OrderState;
+import shop.exception.AlipaySignatureException;
 import shop.mapper.CartMapper;
 import shop.mapper.OrderMapper;
 import shop.service.OrderService;
@@ -40,10 +45,12 @@ public class OrderServiceImpl implements OrderService {
 	private String alipayNotifyUrl;
 
 	private ObjectMapper objectMapper;
+	private String alipayPublicKey;
+	private String alipaySignType;
 
 	@Autowired
 	public OrderServiceImpl(OrderMapper orderMapper, CartMapper cartMapper, AlipayClient alipayClient, Environment env,
-			ObjectMapper objectMapper) {
+			ObjectMapper objectMapper) throws IOException {
 		super();
 		this.orderMapper = orderMapper;
 		this.cartMapper = cartMapper;
@@ -51,7 +58,11 @@ public class OrderServiceImpl implements OrderService {
 
 		this.alipayReturnUrl = env.getProperty("alipay.returnUrl");
 		this.alipayNotifyUrl = env.getProperty("alipay.notifyUrl");
-
+		this.alipayPublicKey = FileUtils.readFileToString(
+                new File(env.getProperty("alipay.alipayPublicKeyFile")), 
+                "UTF-8");
+		this.alipaySignType  = env.getProperty("alipay.signType");
+		
 		this.objectMapper = objectMapper;
 	}
 
@@ -200,6 +211,21 @@ public class OrderServiceImpl implements OrderService {
 			throw new RuntimeException(e);
 		} // 调用SDK生成支付表单
 
+	}
+	/**
+	 * 支付宝验签
+	 */
+	@Override
+	public void verifySignature(Map<String, String> paramMap) 
+			throws AlipaySignatureException{
+		 try {
+	            if (!AlipaySignature.rsaCheckV1(paramMap, alipayPublicKey, "UTF-8", alipaySignType)) {
+	                throw new AlipaySignatureException();
+	            }
+	        } catch (AlipayApiException e) {
+	            throw new AlipaySignatureException(e);
+	        }
+		
 	}
 
 }
