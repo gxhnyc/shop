@@ -91,4 +91,20 @@
   				where c_id=#{c_id} and o_id=#{o_id}
   		</select>
   		
+  		<update id="setTotalAmount">
+	    	update ORDERS set TOTALAMOUNT = #{totalAmount} where O_ID = #{o_id}
+	  	</update>
+	  
+	  	<select id="findOneToPay" resultType="Order">
+	    	select O_ID, STATE, TOTALAMOUNT from ORDERS where O_ID = #{o_id}
+	  	</select>
+	  
+	  	<update id="setStateToPaid">
+	    	update ORDERS set STATE = 'Paid' where O_ID = #{o_id}
+	 	</update>
+  		
+  		
+  		
+  		
+  		
   </mapper>

@@ -18,6 +18,8 @@ public class Order {
 	private Date createTime;
 	private OrderState orderState;
 	
+	private Integer totalAmount;
+	
 	
 	public Integer totalResult() {
 		int result=0;
@@ -90,5 +92,11 @@ public class Order {
             return "?-" + orderState;
         }
     }
+	public Integer getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(Integer totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 	
 }

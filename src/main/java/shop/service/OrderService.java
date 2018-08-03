@@ -83,5 +83,7 @@ public interface OrderService {
 	 */
 	void verifySignature(Map<String, String> paramMap) throws AlipaySignatureException;
 	
+	void handlePayResult(Map<String, String> paramMap);
+	
 	
 }

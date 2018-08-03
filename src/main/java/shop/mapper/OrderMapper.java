@@ -80,4 +80,24 @@ public interface OrderMapper {
 	 */
 	Order findOneById(@Param("c_id") Long c_id,@Param("o_id") Long o_id);
 	
+	/**
+	 * 用户支付成功后，商户服务器端将交易价格设置到数据库中
+	 * @param o_id
+	 * @param totalAmountInFen
+	 */
+	void setTotalAmount(@Param("o_id") Long o_id,@Param("totalAmountInFen") int totalAmountInFen);
+	
+	/**
+	 * 通过订单id找到已支付的订单
+	 * @param o_id
+	 * @return
+	 */
+	Order findOneToPay(Long o_id);
+	
+	/**
+	 * 设置订单状态为”已支付“
+	 * @param o_id
+	 */	 
+	void setStateToPaid(Long o_id);
+	
 }
