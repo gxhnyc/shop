@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+  <property name="LOG_HOME" value="${D:/web_logs}" />
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOG_HOME}/app.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_HOME}/old/app-%d{yyyyMM}.log</fileNamePattern>
+      <maxHistory>12</maxHistory>
+    </rollingPolicy>
+
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      <pattern>%date [%-36.36thread] %-5level %-36.36logger{32} - %message%n</pattern>
     </encoder>
   </appender>
 
-  <root level="INFO">
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date [%-36.36thread] %-5level %-36.36logger{32} - %message%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNCFILE" class="ch.qos.logback.classic.AsyncAppender">
+    <appender-ref ref="FILE" />
+  </appender>
+
+  <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
     <appender-ref ref="STDOUT" />
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="ASYNCFILE" />
+    <appender-ref ref="ASYNCSTDOUT" />
   </root>
+
+  <logger name="shop" level="DEBUG" />
+  <logger name="shop.mapper" level="INFO" />
 </configuration>

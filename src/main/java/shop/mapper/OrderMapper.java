@@ -85,7 +85,7 @@ public interface OrderMapper {
 	 * @param o_id
 	 * @param totalAmountInFen
 	 */
-	void setTotalAmount(@Param("o_id") Long o_id,@Param("totalAmountInFen") int totalAmountInFen);
+	void setTotalAmount(@Param("o_id") Long o_id,@Param("totalAmount") int totalAmount);
 	
 	/**
 	 * 通过订单id找到已支付的订单

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,8 @@ import shop.service.OrderService;
 @Service
 @Transactional
 public class OrderServiceImpl implements OrderService {
+	//调用日记处理的固定格式：
+	 private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private OrderMapper orderMapper;
 	private CartMapper cartMapper;
@@ -48,10 +52,11 @@ public class OrderServiceImpl implements OrderService {
 	private ObjectMapper objectMapper;
 	private String alipayPublicKey;
 	private String alipaySignType;
-	 private String appId;
+	private String appId;
 
 	@Autowired
-	public OrderServiceImpl(OrderMapper orderMapper, CartMapper cartMapper, AlipayClient alipayClient, Environment env,
+	public OrderServiceImpl(OrderMapper orderMapper, CartMapper cartMapper, 
+			AlipayClient alipayClient, Environment env,
 			ObjectMapper objectMapper) throws IOException {
 		super();
 		this.orderMapper = orderMapper;
@@ -85,10 +90,13 @@ public class OrderServiceImpl implements OrderService {
 		order.setCreateTime(new Date());
 
 		order.setOrderState(OrderState.Created);
-
+		
+		logger.debug("插入订单！");
 		orderMapper.createOrder(order);
+		
 		System.out.println(order.getC_id() + "--------" + order.getCreateTime() + "----" + order.getO_id());
 		System.out.println("创建订单后，订单的id为：" + order.getO_id());
+		
 		// 2.将购物项转移至订单项
 		Cart cart = new Cart(cartMapper.findAllItems(c_id));
 		for (CartItem citem : cart.getCartitems()) {
@@ -96,12 +104,16 @@ public class OrderServiceImpl implements OrderService {
 			oitem.setO_id(order.getO_id());//
 			oitem.setCellphone(citem.getCellphone());
 			oitem.setAmount(citem.getAmount());
+			
+			logger.debug("插入订单项！");
 			orderMapper.createOrderItem(oitem);
 		}
 
 		// 3.清空购物项
+		logger.debug("清空购物车！");
 		cartMapper.cleanCartItems(c_id);
-
+		
+		 logger.info("订单已创建: #" + order.getO_id());
 		return order;
 
 	}
@@ -212,11 +224,14 @@ public class OrderServiceImpl implements OrderService {
 		// 直接将完整的表单html输出到页面
 		try {
 			String bizContentStr = objectMapper.writeValueAsString(bizContent);
-			System.out.println("alipay.bizContentStr: " + bizContentStr);
+			
+			 logger.debug("alipay.bizContentStr: " + bizContentStr);
+			 
 			alipayRequest.setBizContent(bizContentStr);
 			
 			 String form = alipayClient.pageExecute(alipayRequest).getBody(); // 调用SDK生成支付表单
-	         orderMapper.setTotalAmount(o_id, totalAmountInFen);
+	        //数据库表中设置订单金额数据：
+			 orderMapper.setTotalAmount(o_id, totalAmountInFen);
 			
 			return form;
 		} catch (Exception e) {
@@ -232,7 +247,8 @@ public class OrderServiceImpl implements OrderService {
 			throws AlipaySignatureException{
 		 try {
 	            if (!AlipaySignature.rsaCheckV1(paramMap, alipayPublicKey, "UTF-8", alipaySignType)) {
-	                throw new AlipaySignatureException();
+	            	 logger.warn("支付宝签名错误！");
+	            	throw new AlipaySignatureException();
 	            }
 	        } catch (AlipayApiException e) {
 	            throw new AlipaySignatureException(e);

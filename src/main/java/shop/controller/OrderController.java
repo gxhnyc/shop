@@ -191,7 +191,8 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.POST, value = "/async-pay-cb")
     @ResponseBody // 响应内容是text/plain
     public String onPayResult(@RequestParam Map<String, String> paramMap) {
-        orderService.handlePayResult(paramMap);
+       System.out.println("----------异步处理----");
+		orderService.handlePayResult(paramMap);
         return "success";
     }
 

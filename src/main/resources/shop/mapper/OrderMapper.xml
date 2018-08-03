@@ -8,7 +8,8 @@
   <mapper namespace="shop.mapper.OrderMapper">  		
   		
   		<insert id="createOrder" useGeneratedKeys="true" keyColumn="o_id" keyProperty="o_id">
-  			 insert into orders values(orders_seq.nextval,#{c_id},#{shippingAddress.ship_id},#{createTime},#{orderState})  
+  			 insert into orders(o_id,c_id,ship_id,createTime,State) 
+  			 	values(orders_seq.nextval,#{c_id},#{shippingAddress.ship_id},#{createTime},#{orderState})  
   		</insert>
   		
   		<insert id="createOrderItem">
