@@ -119,9 +119,13 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.GET, value = "/uc/showorders")
 	public String showOrders(Model model, @AuthenticationPrincipal(expression = "customer.c_id") Long c_id) {
 
-		List<Order> orders = orderService.findAllOrders(c_id);
-		model.addAttribute("orders", orders);
-
+		try {
+			List<Order> orders = orderService.findAllOrders(c_id);
+			model.addAttribute("orders", orders);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return "show-orders";
 
 	}

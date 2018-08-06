@@ -100,4 +100,10 @@ public interface OrderMapper {
 	 */	 
 	void setStateToPaid(Long o_id);
 	
+	/**
+	 * 删除已取消订单，通过cron调用，返回类型必须为void，参数列表必须为空
+	 * @return
+	 */
+	Integer deleteCanceledOrders();
+	
 }

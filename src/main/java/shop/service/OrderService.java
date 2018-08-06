@@ -82,8 +82,15 @@ public interface OrderService {
 	 * @throws AlipaySignatureException
 	 */
 	void verifySignature(Map<String, String> paramMap) throws AlipaySignatureException;
-	
+	/**
+	 * 处理支付宝服务器返回的结果（将商家端订单阙状态修改为Paid + 异步验签）
+	 * @param paramMap
+	 */
 	void handlePayResult(Map<String, String> paramMap);
 	
+	 /**
+	 * 删除已取消订单，通过cron调用，返回类型必须为void，参数列表必须为空
+	 */
+	void deleteCanceledOrders();
 	
 }

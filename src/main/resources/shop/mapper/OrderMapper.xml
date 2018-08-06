@@ -105,7 +105,10 @@
 	 	</update>
   		
   		
-  		
-  		
+  		<delete id="deleteCanceledOrders">
+		   delete from  Orders where 
+		      	state='Canceled'  
+		      and current_timestamp - createtime >= INTERVAL '0' day
+		</delete>
   		
   </mapper>
