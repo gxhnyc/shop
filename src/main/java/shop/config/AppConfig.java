@@ -109,11 +109,17 @@ public class AppConfig extends WebMvcConfigurerAdapter{
                 );
     }
 	
-	
+	//这个类是jackson提供的，主要是用来把对象转换成为一个json字符串返回到前端
 	@Bean
     public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
+	
+	//事务支持组件
+	@Bean
+	public PlatformTransactionManager transactionManager(DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
+	}
 	
 	
 }

@@ -36,4 +36,5 @@
 
   <logger name="shop" level="DEBUG" />
   <logger name="shop.mapper" level="INFO" />
+  <logger name="org.springframework.jdbc" level="DEBUG" />
 </configuration>

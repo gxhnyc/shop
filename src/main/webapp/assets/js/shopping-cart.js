@@ -8,7 +8,7 @@ $('.item-amount').change(function() {
     
     
     var data = {
-    	/*data-cellphone-id	,jsp自动拆解附加参数为data('cellphone-id')*/
+    	/*data-cellphone-id	,（规范）单词都需要小写，jsp自动拆解附加参数为data('cellphone-id')*/
         cp_id: $(this).data('cellphone-id'),
         amount: $(this).val()
     };

@@ -10,6 +10,11 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <t:layout title="订单支付完成">
+
+  <jsp:attribute name="js">
+  	<script type="text/javascript" src="${contextPath }/assets/vendor/jquery-3.3.1.min.js">
+</script>
+  </jsp:attribute>
   <jsp:body>
     <div>订单支付完成，前往<a href="${contextPath}/uc/order-details/${orderId}">订单详情页</a></div>
   </jsp:body>

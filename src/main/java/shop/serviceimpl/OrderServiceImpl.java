@@ -259,7 +259,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void handlePayResult(Map<String, String> paramMap) {
 		 // 验签
-        verifySignature(paramMap);
+       // verifySignature(paramMap);
         
         // 获取必要的请求参数
         String orderNumber = paramMap.get("out_trade_no");
@@ -282,6 +282,7 @@ public class OrderServiceImpl implements OrderService {
         
         if ("TRADE_SUCCESS".equals(tradeStatus) || "TRADE_FINISHED".equals(tradeStatus)) {
             // 设置订单状态为已支付
+        	logger.debug("设置订单状态为Paid");
             orderMapper.setStateToPaid(orderId);
         }
     

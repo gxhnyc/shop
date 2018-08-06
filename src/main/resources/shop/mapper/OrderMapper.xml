@@ -97,7 +97,7 @@
 	  	</update>
 	  
 	  	<select id="findOneToPay" resultType="Order">
-	    	select O_ID, STATE, TOTALAMOUNT from ORDERS where O_ID = #{o_id}
+	    	select O_ID, STATE orderState, TOTALAMOUNT from ORDERS where O_ID = #{o_id}
 	  	</select>
 	  
 	  	<update id="setStateToPaid">

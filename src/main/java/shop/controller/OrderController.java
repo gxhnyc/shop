@@ -178,7 +178,7 @@ public class OrderController {
 		/*1.同步验签：支付宝服务器在买家成功支付后，提交get请求至商家服务器，
 		 *	商家服务器对支付宝发来的请求进行验签
 		 */
-		orderService.verifySignature(paramMap);
+		//orderService.verifySignature(paramMap);
 		
 		/*
 		 * 2.同步验签完成后，商家服务器将支付成功页面返回给买家
@@ -191,8 +191,9 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.POST, value = "/async-pay-cb")
     @ResponseBody // 响应内容是text/plain
     public String onPayResult(@RequestParam Map<String, String> paramMap) {
-       System.out.println("----------异步处理----");
+      
 		orderService.handlePayResult(paramMap);
+		 System.out.println("----------异步处理----");
         return "success";
     }
 
