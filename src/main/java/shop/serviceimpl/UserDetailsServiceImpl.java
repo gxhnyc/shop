@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	        else{
 	        System.out.println("userDetailsServiceImpl.loadUserByUserName()："+customer.getUsername()+
 	        		"最后一次登录时间："+customer.getLastdate());
-	        System.out.println("UserDetailsServiceImpl:"+customer.getC_id()+"-----------");
+	       /* System.out.println("UserDetailsServiceImpl:"+customer.getC_id()+"-----------");*/
 	        // 从mapper得到的是实体operator，需要转换成springsecurity所需的UserDetails对象
 	        return new UserDetailsImpl(customer);
 	        }

@@ -34,7 +34,7 @@ public class AddressServiceImpl implements AddressService {
 	public List<ShippingAddress> findAllAddress(Long c_id) {
 		//System.out.println("addressServiceImpl:findAllAdress(c_id)--"+c_id);
 		List<ShippingAddress> addresses=addressMapper.findAllAddress(c_id);
-		System.out.println("size:"+addresses.size());
+		
 		return addresses;
 	}
 

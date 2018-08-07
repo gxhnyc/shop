@@ -95,8 +95,8 @@ public class OrderServiceImpl implements OrderService {
 		logger.debug("插入订单！");
 		orderMapper.createOrder(order);
 		
-		System.out.println(order.getC_id() + "--------" + order.getCreateTime() + "----" + order.getO_id());
-		System.out.println("创建订单后，订单的id为：" + order.getO_id());
+		/*System.out.println(order.getC_id() + "--------" + order.getCreateTime() + "----" + order.getO_id());*/
+		/*System.out.println("创建订单后，订单的id为：" + order.getO_id());*/
 		
 		// 2.将购物项转移至订单项
 		Cart cart = new Cart(cartMapper.findAllItems(c_id));
@@ -205,7 +205,7 @@ public class OrderServiceImpl implements OrderService {
 		// 支付宝交易采用的是bigDecimal数据类型，单位是元
 		int totalAmountInFen = order.totalResult();
 		BigDecimal totalAmount = BigDecimal.valueOf(totalAmountInFen).divide(BigDecimal.valueOf(100)); // 订单总金额（元）
-		System.out.println("totalAmount:" + totalAmount);
+		/*System.out.println("totalAmount:" + totalAmount);*/
 
 		// 3.发送给支付宝的请求（用户从网站发起支付请求）
 		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest(); // 即将发送给支付宝的请求（电脑网站支付请求）
@@ -290,9 +290,9 @@ public class OrderServiceImpl implements OrderService {
 		
 	}
 
-	/*@Scheduled(cron = "0 0 3 * * *") // 每天凌晨3点执行该方法*/
-	@Scheduled(cron = "* * * * * *") // 每秒钟删除...
-    @Override
+	@Scheduled(cron = "0 0 3 * * *") // 每天凌晨3点执行该方法
+	/*@Scheduled(cron = "* * * * * *") // 每秒钟删除...*/ 
+   @Override
     public void deleteCanceledOrders() {
         logger.info("删除过期已取消订单");
         Integer count = orderMapper.deleteCanceledOrders();

@@ -29,7 +29,7 @@
 		<sec:authentication property="principal.username" var="c_username" scope="session"/>
 			<li><a href="">--当前用户--</a></li>
 			<!--  principal属性可以拿到当前登录的用户详情（UserDetailsImpl） -->
-			<li>用户名：<a href="">【${c_username }】</a>				
+			<li>用户名：<a href="">【${c_username }】</a><a>地址：【${province }】</a>			
 			<c:choose>	
 				<c:when test="${o_email!=null }">
 					邮　箱：<a href="">【${o_email }】</a>
@@ -39,6 +39,7 @@
 				</c:otherwise>
 			</c:choose>	
 			</li>
+			
 			<li><!-- springsecurity默认的退出路径是：POST /logout，注意：springsecurity自带处理 -->
 				<form action="${contextPath }/logout" method="post">
 					<sec:csrfInput/>

@@ -42,7 +42,7 @@ import shop.service.OrderService;
  *
  */
 @Controller
-public class OrderController {
+public class OrderController extends BaseController{
 	private OrderService orderService;
 	private AddressService addressService;
 	private CartService cartService;
@@ -75,7 +75,7 @@ public class OrderController {
 		}
 		Order order = orderService.createOrder(c_id, orderForm.getShippingAddressID());
 
-		System.out.println("OrderController.getOrderState():" + order.getOrderState());
+		/*System.out.println("OrderController.getOrderState():" + order.getOrderState());*/
 		return "redirect:/uc/showorders/" + order.getO_id();
 	}
 
@@ -144,7 +144,7 @@ public class OrderController {
 	// 删除订单
 	@RequestMapping(method = RequestMethod.GET, value = "/uc/del-order/{o_id}")
 	public String delOrder(@AuthenticationPrincipal(expression = "customer.c_id") Long c_id, @PathVariable Long o_id) {
-		System.out.println("OrderController.DelOrder--o_id:" + o_id);
+		/*System.out.println("OrderController.DelOrder--o_id:" + o_id);*/
 
 		// 删除订单
 		orderService.delOrder(o_id, c_id);
@@ -156,7 +156,7 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.POST, value = "/uc/cancel-order")
 	public String cancelOrder(@ModelAttribute OrderForm orderForm, Model model,
 			@AuthenticationPrincipal(expression = "customer.c_id") Long c_id, @RequestParam Long o_id) {
-		System.out.println("OrderController.cancelOrder--o_id:" + o_id);
+		/*System.out.println("OrderController.cancelOrder--o_id:" + o_id);*/
 
 		// 取消订单
 		orderService.cancelOrder(o_id, c_id);
@@ -197,7 +197,7 @@ public class OrderController {
     public String onPayResult(@RequestParam Map<String, String> paramMap) {
       
 		orderService.handlePayResult(paramMap);
-		 System.out.println("----------异步处理----");
+		 logger.debug("handlePayResult,异步处理----");
         return "success";
     }
 

@@ -19,7 +19,7 @@
   		
   		<update id="editAddress">
   			update shippingaddress set consignee=#{consignee} , tel=#{tel}, address=#{address}
-  					where ship_id=#{ship_id} and c_id=#{customer.c_id}
+  					where ship_id=#{ship_id} and c_id=#{c_id}
   		</update>
   		<select id="findAddressByID" resultType="ShippingAddress">
   			select * from shippingaddress where ship_id=#{ship_id} and c_id=#{c_id}

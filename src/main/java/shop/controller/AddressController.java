@@ -24,7 +24,7 @@ import shop.service.AddressService;
  *
  */
 @Controller
-public class AddressController {
+public class AddressController extends BaseController{
 	
 	private AddressService addressService;	
 	@Autowired
@@ -56,7 +56,7 @@ public class AddressController {
 										@AuthenticationPrincipal(expression="customer.c_id") Long c_id) 
 		{	
 			if(bindingResult.hasErrors()) {
-				System.out.println("添加地址时出错！");
+				logger.debug("添加地址时出错！");
 				return "add-address";
 			}
 			addressService.addAddress(shippingAddress,c_id);
@@ -72,7 +72,7 @@ public class AddressController {
 		{	
 			//为保证安全，应该通过用户id和地址id去查找
 			ShippingAddress shippingAddress=addressService.findAddressByID(c_id,ship_id);
-			System.out.println(shippingAddress.toString()+"-------------");
+			
 			model.addAttribute("shippingAddress", shippingAddress);
 			
 			return "edit-address";
@@ -86,7 +86,7 @@ public class AddressController {
 										Model model) 
 		{	
 			if(bindingResult.hasErrors()) {
-				System.out.println("修改地址时有错误！");
+				logger.debug("修改地址时有错误！");
 				return "edit-address";
 			}		
 			shippingAddress.setShip_id(ship_id);

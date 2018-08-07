@@ -18,7 +18,7 @@ import shop.service.CellphoneService;
  *
  */
 @Controller
-public class CellphoneDetailsController {
+public class CellphoneDetailsController{
 	
 	private CellphoneService cellphoneService;
 	@Autowired
