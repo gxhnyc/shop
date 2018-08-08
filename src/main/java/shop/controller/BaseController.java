@@ -1,5 +1,7 @@
 package shop.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,7 +33,13 @@ public class BaseController {
 			Model model
 			) {
 		logger.debug("开始准备页面位置数据......");
-		province=(String) session.getAttribute("province");
+		
+		ip=request.getRemoteAddr();//获取请求地址的ip
+		
+		province = ipService.ipToProvince(ip);
+		
+		model.addAttribute("province", province);
+		/*province=(String) session.getAttribute("province");
 		//1.判断Province是否为空，若空，重新获取本地ip,并设置到session中
 		if(province==null) {			
 			ip=request.getRemoteAddr();
@@ -44,8 +52,7 @@ public class BaseController {
 		
 		model.addAttribute("province", province);
 		
-		
-		}
+		}*/
 		
 		
 	}
